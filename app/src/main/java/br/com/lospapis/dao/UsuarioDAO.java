@@ -76,4 +76,19 @@ public class UsuarioDAO {
 
         return usuario;
     }
+
+    public void atualizarDados(Context context, Usuario usuario){
+
+        SQLiteDatabase bd = BancoDadosHelper.FabricaDeConexao.getConexaoGravacao(context);
+
+        ContentValues valores = new ContentValues();
+        valores.put(BancoDados.Tabela.COLUNA_USUARIO_USUARIO, usuario.getUsuario());
+        valores.put(BancoDados.Tabela.COLUNA_USUARIO_SENHA, usuario.getSenha());
+        int count = bd.update(
+                BancoDados.Tabela.TABELA_USUARIO,
+                valores,
+                null,
+                null
+        );
+    }
 }
