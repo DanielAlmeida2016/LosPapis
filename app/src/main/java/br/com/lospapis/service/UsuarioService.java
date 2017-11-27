@@ -27,8 +27,8 @@ public class UsuarioService {
 
         if (TesteConectividade.isConnected(context)) {
             usuario = usuarioRest.get(urlBase, usuarioS, senha);
-            
-            if (usuarioDAO.buscarUsuario(context, usuarioS, senha) != null) {
+
+            if (usuarioDAO.buscarId(context, usuarioS, senha) != -1) {
                 usuarioDAO.atualizarDados(context, usuario);
             }
         } else {

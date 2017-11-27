@@ -77,6 +77,48 @@ public class UsuarioDAO {
         return usuario;
     }
 
+    public long buscarId(Context context, String usuarioS, String senha) {
+
+        SQLiteDatabase bd = BancoDadosHelper.FabricaDeConexao.getConexaoLeitura(context);
+        long id = -1;
+        Cursor c = null;
+
+        try {
+
+            String[] selectColunasFrom = {BancoDados.Tabela._ID};
+
+            String where =
+                    BancoDados.Tabela.COLUNA_USUARIO_USUARIO + " = ?"
+                            + " AND " + BancoDados.Tabela.COLUNA_USUARIO_SENHA + " = ?";
+
+            String[] valorWhere =
+                    { usuarioS, senha };
+
+            c = bd.query(BancoDados.Tabela.TABELA_USUARIO,
+                    selectColunasFrom,
+                    where,
+                    valorWhere,
+                    null,
+                    null,
+                    null
+            );
+
+            if (c.moveToFirst()) {
+                id = c.getLong(c.getColumnIndexOrThrow(BancoDados.Tabela._ID));
+            } else {
+                id = -1;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (c != null) {
+                c.close();
+            }
+        }
+
+        return id;
+    }
+
     public void atualizarDados(Context context, Usuario usuario){
 
         SQLiteDatabase bd = BancoDadosHelper.FabricaDeConexao.getConexaoGravacao(context);
